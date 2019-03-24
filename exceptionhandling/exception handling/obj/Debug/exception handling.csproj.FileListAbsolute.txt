@@ -1,0 +1,7 @@
+G:\web\C# programming\exception handling\exception handling\bin\Debug\exception handling.exe.config
+G:\web\C# programming\exception handling\exception handling\bin\Debug\exception handling.exe
+G:\web\C# programming\exception handling\exception handling\bin\Debug\exception handling.pdb
+G:\web\C# programming\exception handling\exception handling\obj\Debug\exception handling.csprojAssemblyReference.cache
+G:\web\C# programming\exception handling\exception handling\obj\Debug\exception handling.csproj.CoreCompileInputs.cache
+G:\web\C# programming\exception handling\exception handling\obj\Debug\exception handling.exe
+G:\web\C# programming\exception handling\exception handling\obj\Debug\exception handling.pdb
