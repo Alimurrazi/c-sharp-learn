@@ -25,36 +25,38 @@ namespace mongodb
             // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
 
             MongoClient dbClient = new MongoClient("mongodb://127.0.0.1:27017");
-            var dbList = dbClient.ListDatabaseNames().ToList();
-            Console.WriteLine("created database so far...........");
-            foreach(var item in dbList)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("...................................");
+            //var dbList = dbClient.ListDatabaseNames().ToList();
+            //Console.WriteLine("created database so far...........");
+            //foreach(var item in dbList)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Console.WriteLine("...................................");
 
-            IMongoDatabase db = dbClient.GetDatabase("Person");
-            var collectionList = db.ListCollections().ToList();
-            Console.WriteLine("created collection for person database.................");
-            foreach(var item in collectionList)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("........................................................");
+            //IMongoDatabase db = dbClient.GetDatabase("Person");
+            //var collectionList = db.ListCollections().ToList();
+            //Console.WriteLine("created collection for person database.................");
+            //foreach(var item in collectionList)
+            //{
+            //    Console.WriteLine(item);
+            //}
+            //Console.WriteLine("........................................................");
 
-            db = dbClient.GetDatabase("Person");
-            IMongoCollection<Person> collection = db.GetCollection<Person>("employees");
+            var db = dbClient.GetDatabase("Person");
+            //IMongoCollection<Person> collection = db.GetCollection<Person>("employees");
+            //Person randomUser = new Person
+            //{
+            //    Id = ObjectId.GenerateNewId(),
+            //    FirstName = "john",
+            //    LastName = "doe",
+            //    Age = 25
+            //};
+            //collection.InsertOne(randomUser);
 
-            Person randomUser = new Person
-            {
-                Id = ObjectId.GenerateNewId(),
-                FirstName = "john",
-                LastName = "doe",
-                Age = 25
-            };
-            collection.InsertOne(randomUser);
-
-
+            var newCollection = db.GetCollection<Person>("employees");
+            
+            var result = newCollection;
+            Console.WriteLine(result);
 
             Console.ReadKey();
 
