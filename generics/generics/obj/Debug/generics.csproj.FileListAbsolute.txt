@@ -1,7 +1,0 @@
-C:\Users\alimur.razi\source\repos\generics\generics\bin\Debug\generics.exe.config
-C:\Users\alimur.razi\source\repos\generics\generics\bin\Debug\generics.exe
-C:\Users\alimur.razi\source\repos\generics\generics\bin\Debug\generics.pdb
-C:\Users\alimur.razi\source\repos\generics\generics\obj\Debug\generics.csprojAssemblyReference.cache
-C:\Users\alimur.razi\source\repos\generics\generics\obj\Debug\generics.csproj.CoreCompileInputs.cache
-C:\Users\alimur.razi\source\repos\generics\generics\obj\Debug\generics.exe
-C:\Users\alimur.razi\source\repos\generics\generics\obj\Debug\generics.pdb
