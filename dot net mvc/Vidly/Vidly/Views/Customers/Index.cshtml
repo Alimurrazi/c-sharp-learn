@@ -7,10 +7,9 @@
 <h2>Customer</h2>
 
 <ul>
-    @foreach(var customer in @Model)
+    @foreach (var customer in @Model)
     {
-        <li>@customer.Name</li>
-        <li>@customer.Id</li>
+        <li><a href="Customers/getCustomer/@customer.Id">@customer.Name</a></li>
     }
 </ul>
 
