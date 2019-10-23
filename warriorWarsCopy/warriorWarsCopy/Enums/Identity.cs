@@ -4,9 +4,9 @@ using System.Text;
 
 namespace warriorWarsCopy.Enums
 {
-    public enum Faction
+    public enum Identity
     {
-        GoodGuy,
-        BadGuy
+        Hero,
+        Villian
     }
 }
