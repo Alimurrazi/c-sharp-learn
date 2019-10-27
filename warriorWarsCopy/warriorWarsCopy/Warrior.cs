@@ -14,6 +14,13 @@ namespace warriorWarsCopy
         private string name;
         private int health;
         private bool isAlive;
+        public bool IsAlive
+        {
+            get
+            {
+                return isAlive;
+            }
+        }
         public Warrior(string name, Identity identity)
         {
             this.name = name;
