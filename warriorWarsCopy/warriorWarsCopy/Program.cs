@@ -15,10 +15,12 @@ namespace warriorWarsCopy
             {
                 if (rng.Next(0, 10) < 5)
                 {
+                    hero.attack(villian);
                     Console.WriteLine("asob ki....");
                 }
                 else
                 {
+                    villian.attack(hero);
                     Console.WriteLine("hisab bujho na....");
                 }
 

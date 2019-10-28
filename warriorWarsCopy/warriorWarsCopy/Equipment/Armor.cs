@@ -18,7 +18,7 @@ namespace warriorWarsCopy.Equipment
             }
         }
 
-        Armor(Identity identity)
+        public Armor(Identity identity)
         {
             switch (identity)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using warriorWarsCopy.Enums;
+using warriorWarsCopy.Equipment;
 
 namespace warriorWarsCopy
 {
@@ -14,6 +15,8 @@ namespace warriorWarsCopy
         private string name;
         private int health;
         private bool isAlive;
+        private Armor armor;
+        private Weapon weapon;
         public bool IsAlive
         {
             get
@@ -31,11 +34,20 @@ namespace warriorWarsCopy
             {
                 case Identity.Hero:
                     this.health = HERO_INITIAL_HEALTH;
+                    this.weapon = new Weapon(identity);
+                    this.armor = new Armor(identity);
                     break;
                 case Identity.Villian:
                     this.health = VILLIAN_INITIAL_HEALTH;
+                    this.weapon = new Weapon(identity);
+                    this.armor = new Armor(identity);
                     break;
             }
+        }
+
+        public void attack(Warrior Enemy)
+        {
+           
         }
 
     }
