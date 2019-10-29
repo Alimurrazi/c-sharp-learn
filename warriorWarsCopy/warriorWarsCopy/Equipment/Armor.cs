@@ -8,7 +8,7 @@ namespace warriorWarsCopy.Equipment
     class Armor
     {
         private const int VILLIAN_DAMAGE = 5;
-        private const int HERO_DAMAGE = 4;
+        private const int HERO_DAMAGE = 5;
         private int damage;
 
         public int Damage{

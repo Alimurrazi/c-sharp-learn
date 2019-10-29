@@ -47,7 +47,23 @@ namespace warriorWarsCopy
 
         public void attack(Warrior Enemy)
         {
-           
+            int damage = weapon.WeaponPower / Enemy.armor.Damage;
+            Enemy.health = Enemy.health - damage;
+            attackResult(Enemy);
+        }
+
+        private void attackResult(Warrior enemy)
+        {
+            if(enemy.health <= 0)
+            {
+                enemy.isAlive = false;
+                Style.colorLine($"{name} wins!", ConsoleColor.Green);
+                Style.colorLine($"{enemy.name} is dead!", ConsoleColor.Red);
+            }
+            else
+            {
+                Console.WriteLine($"{name} attacks {enemy.name}");
+            }
         }
 
     }
