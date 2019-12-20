@@ -18,7 +18,7 @@ namespace WebApi_Daniel_Donbavand
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSingleton<IInventoryServices, Services.InventoryService>();
+            services.AddSingleton<IInventoryServices, InventoryServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,10 +33,8 @@ namespace WebApi_Daniel_Donbavand
                 app.UseHsts();
             }
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.UseHttpsRedirection();
+            app.UseMvc();
         }
     }
 }
