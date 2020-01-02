@@ -8,6 +8,8 @@ using mongodb_official_doc.Services;
 
 namespace mongodb_official_doc.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class BooksController : Controller
     {
         private readonly BookService _bookService;
@@ -19,6 +21,7 @@ namespace mongodb_official_doc.Controllers
         [HttpGet]
         public ActionResult<List<Book>> Get() =>
             _bookService.Get();
+
         [HttpGet("{id:length(24)}", Name = "GetBook")]
         public ActionResult<Book> Get(string id)
         {
