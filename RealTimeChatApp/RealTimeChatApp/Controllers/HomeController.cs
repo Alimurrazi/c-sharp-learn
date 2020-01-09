@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using RealTimeChatApp.Models;
 
 namespace RealTimeChatApp.Controllers
-{
+{   
     public class HomeController : Controller
     {
+         bool logInView = true;
         public IActionResult Index()
         {
-            return View();
+            return View(logInView);
         }
 
         public IActionResult About()
@@ -38,6 +39,11 @@ namespace RealTimeChatApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        void goToSignUp()
+        {
+            this.logInView = false;
         }
     }
 }

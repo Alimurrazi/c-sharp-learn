@@ -1,8 +1,25 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var logInView = (HomeController)logInView;
 }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+@if (@loginView == true)
+{
+
+}
+    <div>
+        <partial name="~/Views/Login/Login.cshtml" />
+        <div>
+            <span>Member already, Please go to signUp page</span>
+            <span onclick="goToSignUp">SignUp</span>
+        </div>
+    </div>
+   
+    <div>
+        <partial name="~/Views/SignUp/SignUp.cshtml" />
+    </div>
+
+@*<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
         <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -91,4 +108,4 @@
             <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
         </ul>
     </div>
-</div>
+</div>*@
