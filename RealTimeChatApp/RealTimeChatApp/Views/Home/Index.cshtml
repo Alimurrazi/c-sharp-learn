@@ -1,4 +1,4 @@
-﻿@{
+﻿@*@{
     ViewData["Title"] = "Home Page";
     var logInView = (HomeController)logInView;
 }
@@ -6,12 +6,13 @@
 @if (@loginView == true)
 {
 
-}
+}*@
     <div>
         <partial name="~/Views/Login/Login.cshtml" />
         <div>
             <span>Member already, Please go to signUp page</span>
-            <span onclick="goToSignUp">SignUp</span>
+            @*<span onclick="goToSignUp">SignUp</span>*@
+            <a href="/SignUp">SignUp</a>
         </div>
     </div>
    

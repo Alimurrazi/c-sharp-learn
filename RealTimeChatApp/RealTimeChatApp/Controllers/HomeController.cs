@@ -43,7 +43,8 @@ namespace RealTimeChatApp.Controllers
 
         void goToSignUp()
         {
-            this.logInView = false;
+           // this.logInView = false;
+
         }
     }
 }
