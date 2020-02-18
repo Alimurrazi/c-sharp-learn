@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using RealTimeChatApp.Models;
 
 namespace RealTimeChatApp.Controllers
 {
@@ -12,5 +13,11 @@ namespace RealTimeChatApp.Controllers
         {
             return View();
         }
+
+        public IActionResult Submit(User user) {
+            Console.WriteLine(user);
+            return View();
+        }
+
     }
 }
