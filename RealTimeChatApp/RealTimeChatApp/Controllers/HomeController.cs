@@ -13,7 +13,8 @@ namespace RealTimeChatApp.Controllers
          bool logInView = true;
         public IActionResult Index()
         {
-            return View(logInView);
+            var user = new User();
+            return View(user);
         }
 
         public IActionResult About()

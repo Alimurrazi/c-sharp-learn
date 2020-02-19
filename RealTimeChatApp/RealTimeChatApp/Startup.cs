@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RealTimeChatApp.Models;
+using RealTimeChatApp.Services;
 
 namespace RealTimeChatApp
 {
@@ -35,10 +36,10 @@ namespace RealTimeChatApp
             services.Configure<DatabaseSettings>(
                 Configuration.GetSection(nameof(DatabaseSettings)));
             
-            services.AddSingleton<DatabaseSettings>(sp =>
-            sp.GetRequiredService < IOptions < DatabaseSettings >> ().Value);
+            services.AddSingleton<IDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-
+            services.AddSingleton<ChatService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
