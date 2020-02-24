@@ -27,5 +27,11 @@ namespace RealTimeChatApp.Services
             _users.InsertOne(user);
             return user;
         }
+
+        public User GetUserByInfo(User user)
+        {
+            return _users.Find(ListedUser => ListedUser.Mail == user.Mail
+                  && ListedUser.Password == user.Password).FirstOrDefault();
+        }
     }
 }
