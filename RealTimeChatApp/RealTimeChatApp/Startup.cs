@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RealTimeChatApp.Models;
 using RealTimeChatApp.Services;
+using RealTimeChatApp.Hubs;
 
 namespace RealTimeChatApp
 {
@@ -42,6 +43,7 @@ namespace RealTimeChatApp
             services.AddSingleton<ChatService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +68,10 @@ namespace RealTimeChatApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/ChatHub");
             });
         }
     }
