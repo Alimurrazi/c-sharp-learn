@@ -16,6 +16,7 @@ using Supermarket.API.Domain.Repositories;
 using Supermarket.API.Domain.Services;
 using Supermarket.API.Services;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 namespace Supermarket.API
 {
     public class Startup
@@ -31,12 +32,13 @@ namespace Supermarket.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-                        services.AddDbContext<AppDbContext>(options => {
+            services.AddDbContext<AppDbContext>(options => {
                 options.UseInMemoryDatabase("supermarket-api-in-memory");
             });
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
