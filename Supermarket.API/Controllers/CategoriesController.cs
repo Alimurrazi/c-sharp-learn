@@ -44,5 +44,22 @@ namespace Supermarket.API.Controllers
             return Ok(categoryResource);
         
         }
+
+        public async Task<IActionResult> PutAsync(int id, [FromBody] SaveCategoryResource resource){
+          if(!ModelState.IsValid){
+              return BadRequest(ModelState.GetErrorMessages());
+          }
+
+          var category = _mapper.Map<SaveCategoryResource, Category>(resource);
+          var result = await _categoryService.UpdateAsync(category);
+
+          if(!result.Success){
+            return BadRequest(result.Message);
+          }
+
+            var categoryResource = _mapper.Map<Category, CategoryResource>(result.Category);
+            return Ok(categoryResource);
+        
+        }
     }
 }
