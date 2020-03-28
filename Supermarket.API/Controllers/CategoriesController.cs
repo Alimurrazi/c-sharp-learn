@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AutoMapper;
 using System.Threading.Tasks;
@@ -24,6 +25,10 @@ namespace Supermarket.API.Controllers
 
             var resources = _mapper.Map<IEnumerable<Category>, IEnumerable<CategoryResource>>(categories);
             return resources;
+        }
+
+        public async Task<IActionResult> PostAsync([FromBody] SaveCategoryResource resource){
+          //  return NotImplementedException;
         }
     }
 }
