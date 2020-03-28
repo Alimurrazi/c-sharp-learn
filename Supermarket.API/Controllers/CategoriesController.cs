@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Supermarket.API.Domain.Models;
 using Supermarket.API.Domain.Services;
 using Supermarket.API.Resources;
+using Supermarket.API.Extensions;
 
 namespace Supermarket.API.Controllers
 {
@@ -28,7 +29,9 @@ namespace Supermarket.API.Controllers
         }
 
         public async Task<IActionResult> PostAsync([FromBody] SaveCategoryResource resource){
-          //  return NotImplementedException;
+          if(!ModelState.IsValid){
+              return BadRequest(ModelState.GetErrorMessages());
+          }
         }
     }
 }
