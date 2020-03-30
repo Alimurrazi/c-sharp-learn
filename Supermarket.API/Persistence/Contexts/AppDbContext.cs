@@ -41,6 +41,7 @@ namespace Supermarket.API.Persistence.Contexts
             Name = "Apple",
             QuantityInPackage = 1,
             UnitOfMeasurement = EUnitOfMeasurement.Unity,
+            Price = 105,
             CategoryId = 100
             },
             new Product
@@ -49,6 +50,7 @@ namespace Supermarket.API.Persistence.Contexts
             Name = "Milk",
             QuantityInPackage = 2,
             UnitOfMeasurement = EUnitOfMeasurement.Liter,
+            Price = 110,
             CategoryId = 101,
             }
     );
