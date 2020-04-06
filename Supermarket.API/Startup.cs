@@ -35,6 +35,7 @@ namespace Supermarket.API {
 
             services.AddScoped<ICategoryRepository, CategoryRepository> ();
             services.AddScoped<IProductRepository, ProductRepository> ();
+            services.AddScoped<IAddToCartRepository, AddToCartRepository> ();
             services.AddScoped<ICategoryService, CategoryService> ();
             services.AddScoped<IProductService, ProductService> ();
             services.AddScoped<IAddToCartService, AddToCartService> ();
