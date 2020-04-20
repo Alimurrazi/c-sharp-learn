@@ -1,5 +1,13 @@
+using System.IO;
+using System.Net.Http;
+using System.Threading;
 using Supermarket.API.Domain.Services;
+using Supermarket.API.Domain.Models;
 using Supermarket.API.Domain.Repositories;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
+using AngleSharp.Html.Parser;
+using AngleSharp.Text;
 
 namespace Supermarket.API.Services
 {
@@ -11,9 +19,20 @@ namespace Supermarket.API.Services
             _ISuperShopRepository = superShopRepository;
             _ICategoryRepository = categoryRepository;
         }
-        public void ScrapeItems(int SuperShopId, int CategoryId){
-            var SuperShop = _ISuperShopRepository.FindByAsync(SuperShopId);
-            var Category = _ICategoryRepository.FindByIdAsync(CategoryId);        
+        public async void ScrapeItems(int SuperShopId, int CategoryId){
+            SuperShop superShop = await _ISuperShopRepository.FindByAsync(SuperShopId);
+            Category category = await _ICategoryRepository.FindByIdAsync(CategoryId);
+
+            CancellationTokenSource cancellationToken = new CancellationTokenSource();
+            HttpClient httpClient = new HttpClient();
+            HttpResponseMessage request = await httpClient.GetAsync(superShop.Url);
+            cancellationToken.Token.ThrowIfCancellationRequested();
+
+            Stream response = await request.Content.ReadAsStreamAsync();
+            cancellationToken.Token.ThrowIfCancellationRequested();
+
+            HtmlParser parser = new HtmlParser(); 
+            IHtmlDocument document = parser.ParseDocument(response);
         }
     }
 }
