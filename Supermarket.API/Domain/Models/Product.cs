@@ -5,8 +5,9 @@ namespace Supermarket.API.Domain.Models
          public int SupserShopId {get;set;}
         public string Name{get;set;}
         public short QuantityInPackage{get;set;}
-        public int Price{get;set;}
+        public string Price{get;set;}
         public int CategoryId{get;set;}
+        public string SuperShopUrl{get;set;}
         public EUnitOfMeasurement UnitOfMeasurement{get;set;}
         public Category Category{get;set;}
     }

@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using Supermarket.API.Domain.Services;
@@ -30,7 +31,8 @@ namespace Supermarket.API.Services
             foreach (var CartItem in cartResource)
             {
             Product SelectedProduct = selectedProducts.First(product => product.Id == CartItem.ProductId);
-            Price = Price + (SelectedProduct.Price * CartItem.Amount);
+            var ProductPrice = int.Parse(Regex.Replace(SelectedProduct.Price, "[^0-9]", ""));
+            Price = Price + (ProductPrice * CartItem.Amount);
             }
             return Price;
         }
