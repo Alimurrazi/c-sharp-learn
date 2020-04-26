@@ -24,7 +24,7 @@ namespace Supermarket.API.Controllers
         }
 
         [HttpGet("supershop/{SuperShopId}/category/{CategoryId}")]
-        public async Task<IHtmlDocument> ScrapCategory(int SuperShopId, int CategoryId){
+        public async Task<List<Product>> ScrapCategory(int SuperShopId, int CategoryId){
 
             // _superShopService.ScrapeItems(SuperShopId, CategoryId);
             var element = await _superShopService.ScrapeItems(SuperShopId, CategoryId);

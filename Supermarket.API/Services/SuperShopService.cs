@@ -28,15 +28,14 @@ namespace Supermarket.API.Services
             _ICategoryRepository = categoryRepository;
             _logger = logger;
         }
-        public async Task<IHtmlDocument> ScrapeItems(int SuperShopId, int CategoryId){
+        public async Task<List<Product>> ScrapeItems(int SuperShopId, int CategoryId){
             SuperShop superShop = await _ISuperShopRepository.FindByAsync(SuperShopId);
             Category category = await _ICategoryRepository.FindByIdAsync(CategoryId);
 
             CancellationTokenSource cancellationToken = new CancellationTokenSource();
             HttpClient httpClient = new HttpClient();
             superShop.Url = "https://www.pickaboo.com/smartphone/samsung.html";
-           HttpResponseMessage request = await httpClient.GetAsync(superShop.Url);
-        //    HttpResponseMessage request = await httpClient.GetAsync(https://www.daraz.com.bd/smartphones/);
+            HttpResponseMessage request = await httpClient.GetAsync(superShop.Url);
             cancellationToken.Token.ThrowIfCancellationRequested();
 
             Stream response = await request.Content.ReadAsStreamAsync();
@@ -45,8 +44,9 @@ namespace Supermarket.API.Services
             HtmlParser parser = new HtmlParser(); 
             IHtmlDocument document = parser.ParseDocument(response);
 
-            this.GetScrapedResults(document);
-            return document;
+            var result = new List<Product>();
+            result = this.GetScrapedResults(document);
+            return result;
         }
 
         private string RemoveSpaces(string res){
@@ -56,7 +56,7 @@ namespace Supermarket.API.Services
                 var p = res[i-1];
                 var n = res[i+1];
                 if(res[i] == ' '){
-                    if((res[i-1]>='a' || res[i-1]>='A' || res[i-1]>='0') && (res[i+1]<='z' || res[i+1]<='Z' || res[i+1]<='9')){
+                    if((res[i-1]>='a' || res[i-1]>='A' || res[i-1]>='0') && (res[i+1]<='z' || res[i+1]<='Z' || res[i+1]<='9') &&(res[i+1]!='\0')){
                         result+= res[i];
                     }
                 }
@@ -66,26 +66,35 @@ namespace Supermarket.API.Services
             }
             return result;
         }
-        private void GetScrapedResults(IHtmlDocument document){
-           // IEnumerable<IElement> productElementCollection = null;
+        private List<Product> GetScrapedResults(IHtmlDocument document){
+            var ProductCollection = new List<Product>();
            var productElementCollection = document.All.Where(x =>
                 x.ClassName == "product details product-item-details").ToList();
             productElementCollection.ForEach(s => {
-            Product scrappedResult = new Product();
+            Product scrappedProduct = new Product();
             var result = s.QuerySelectorAll("a").OfType<IHtmlAnchorElement>();
             foreach (var i in result)
             {
-                scrappedResult.SuperShopUrl = i.Href;
-                scrappedResult.Name = i.InnerHtml;
-                scrappedResult.Name = scrappedResult.Name.ReplaceFirst("\n","");
-                scrappedResult.Name = RemoveSpaces(scrappedResult.Name);
-           //     scrappedResult.Name = Regex.Replace(scrappedResult.Name, @"\s+", "");
+                scrappedProduct.SuperShopUrl = i.Href;
+                scrappedProduct.Name = i.InnerHtml;
+                scrappedProduct.Name = scrappedProduct.Name.ReplaceFirst("\n","");
+                scrappedProduct.Name = RemoveSpaces(scrappedProduct.Name);
             }
+            try{
             var price = s.QuerySelector(".price");
-            scrappedResult.Price = price.InnerHtml;
-        //   _logger.LogInformation(".....................");
+            if(price.InnerHtml == null){
+                scrappedProduct.Price = "100$";
+            }else{
+            scrappedProduct.Price = price.InnerHtml;
             }
-            );
+            ProductCollection.Add(scrappedProduct);
+            }catch(Exception ex){
+                Console.WriteLine(ex);
+            }
+            });
+            Console.WriteLine(ProductCollection);
+            return ProductCollection;
         }
+
     }
 }
