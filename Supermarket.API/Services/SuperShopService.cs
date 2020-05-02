@@ -34,8 +34,8 @@ namespace Supermarket.API.Services
 
             CancellationTokenSource cancellationToken = new CancellationTokenSource();
             HttpClient httpClient = new HttpClient();
-            superShop.Url = "https://www.pickaboo.com/smartphone/samsung.html";
-            HttpResponseMessage request = await httpClient.GetAsync(superShop.Url);
+            string UrlToFetch = superShop.Url + category.TitleInUrl;
+            HttpResponseMessage request = await httpClient.GetAsync(UrlToFetch);
             cancellationToken.Token.ThrowIfCancellationRequested();
 
             Stream response = await request.Content.ReadAsStreamAsync();
@@ -72,18 +72,20 @@ namespace Supermarket.API.Services
                 x.ClassName == "product details product-item-details").ToList();
             productElementCollection.ForEach(s => {
             Product scrappedProduct = new Product();
-            var result = s.QuerySelectorAll("a").OfType<IHtmlAnchorElement>();
-            foreach (var i in result)
+            var Anchors = s.QuerySelectorAll("a").OfType<IHtmlAnchorElement>();
+            foreach (var Anchor in Anchors)
             {
-                scrappedProduct.SuperShopUrl = i.Href;
-                scrappedProduct.Name = i.InnerHtml;
+                if(Anchor.ClassName != "action view"){
+                scrappedProduct.SuperShopUrl = Anchor.Href;
+                scrappedProduct.Name = Anchor.InnerHtml;
                 scrappedProduct.Name = scrappedProduct.Name.ReplaceFirst("\n","");
                 scrappedProduct.Name = RemoveSpaces(scrappedProduct.Name);
+                }
             }
             try{
             var price = s.QuerySelector(".price");
-            if(price.InnerHtml == null){
-                scrappedProduct.Price = "100$";
+            if(price == null){
+                scrappedProduct.Price = "-1";
             }else{
             scrappedProduct.Price = price.InnerHtml;
             }
@@ -92,7 +94,6 @@ namespace Supermarket.API.Services
                 Console.WriteLine(ex);
             }
             });
-            Console.WriteLine(ProductCollection);
             return ProductCollection;
         }
 

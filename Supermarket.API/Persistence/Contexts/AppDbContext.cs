@@ -22,7 +22,7 @@ namespace Supermarket.API.Persistence.Contexts
             builder.Entity<SuperShop>().Property(p => p.Name).IsRequired().HasMaxLength(30);
             builder.Entity<SuperShop>().Property(p => p.Url).IsRequired().HasMaxLength(300);
             builder.Entity<SuperShop>().HasData(
-                new SuperShop{Id=100, Name="Daraz", Url="https://www.daraz.com.bd"}
+                new SuperShop{Id=100, Name="Pickaboo", Url="https://www.pickaboo.com/smartphone/"}
             );
 
             builder.Entity<Category>().ToTable("Categories");
@@ -36,7 +36,7 @@ namespace Supermarket.API.Persistence.Contexts
             builder.Entity<Category>().HasData(
                 new Category{Id=100, Name="Fruits and Vegetables"},
                 new Category{Id=101, Name="Dairy"},
-                new Category{Id=102, SupserShopId=100, Name="Mobiles", TitleInUrl="smartphones"}
+                new Category{Id=102, SupserShopId=100, Name="Samsung Smartphone", TitleInUrl="samsung.html"}
             );
 
             builder.Entity<Product>().ToTable("Products");
