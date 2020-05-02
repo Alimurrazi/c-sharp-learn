@@ -18,6 +18,7 @@ using Supermarket.API.Domain.Services;
 using Supermarket.API.Persistence.Contexts;
 using Supermarket.API.Persistence.Repositories;
 using Supermarket.API.Services;
+using Supermarket.API.HubConfig;
 namespace Supermarket.API {
     public class Startup {
         public Startup (IConfiguration configuration) {
@@ -28,6 +29,7 @@ namespace Supermarket.API {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
+            services.AddSignalR();
             services.AddControllers ();
             services.AddDbContext<AppDbContext> (options => {
                 options.UseInMemoryDatabase ("supermarket-api-in-memory");
@@ -60,8 +62,8 @@ namespace Supermarket.API {
             app.UseRouting ();
 
             app.UseAuthorization ();
-
             app.UseEndpoints (endpoints => {
+                endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapControllers ();
             });
 
