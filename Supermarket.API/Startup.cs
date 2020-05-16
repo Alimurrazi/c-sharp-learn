@@ -15,10 +15,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Supermarket.API.Domain.Repositories;
 using Supermarket.API.Domain.Services;
+using Supermarket.API.HubConfig;
 using Supermarket.API.Persistence.Contexts;
 using Supermarket.API.Persistence.Repositories;
 using Supermarket.API.Services;
-using Supermarket.API.HubConfig;
 namespace Supermarket.API {
     public class Startup {
         public Startup (IConfiguration configuration) {
@@ -29,7 +29,14 @@ namespace Supermarket.API {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
-            services.AddSignalR();
+            services.AddCors (options => {
+                options.AddPolicy ("CorsPolicy", builder => builder
+                    .WithOrigins ("http://localhost:4200")
+                    .AllowAnyMethod ()
+                    .AllowAnyHeader ()
+                    .AllowCredentials ());
+            });
+            services.AddSignalR ();
             services.AddControllers ();
             services.AddDbContext<AppDbContext> (options => {
                 options.UseInMemoryDatabase ("supermarket-api-in-memory");
@@ -41,8 +48,8 @@ namespace Supermarket.API {
             services.AddScoped<ICategoryService, CategoryService> ();
             services.AddScoped<IProductService, ProductService> ();
             services.AddScoped<IAddToCartService, AddToCartService> ();
-            services.AddScoped<ISuperShopRepository, SuperShopRepository>();
-            services.AddScoped<ISuperShopService, SuperShopService>();
+            services.AddScoped<ISuperShopRepository, SuperShopRepository> ();
+            services.AddScoped<ISuperShopService, SuperShopService> ();
             services.AddScoped<IUnitOfWork, UnitOfWork> ();
             services.AddAutoMapper (typeof (Startup));
 
@@ -61,11 +68,13 @@ namespace Supermarket.API {
 
             app.UseRouting ();
 
-            app.UseAuthorization ();
+            app.UseCors("CorsPolicy");
+            
             app.UseEndpoints (endpoints => {
-                endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapControllers ();
+                    endpoints.MapHub<ChatHub> ("/chat");
+                    endpoints.MapControllers ();
             });
+            app.UseAuthorization ();
 
             app.UseSwagger ();
             app.UseSwaggerUI (c => {
