@@ -69,12 +69,12 @@ namespace Supermarket.API {
             app.UseRouting ();
 
             app.UseCors("CorsPolicy");
-            
-            app.UseEndpoints (endpoints => {
-                    endpoints.MapHub<ChatHub> ("/chat");
-                    endpoints.MapControllers ();
-            });
             app.UseAuthorization ();
+
+            app.UseEndpoints (endpoints => {
+                endpoints.MapControllers ();
+                    endpoints.MapHub<ChatHub> ("/chat");
+            });
 
             app.UseSwagger ();
             app.UseSwaggerUI (c => {
