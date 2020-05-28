@@ -18,7 +18,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
   this.startConnection();
-  this.addTransferChartDataListener();
+  this.subscribeMsg();
+ // this.sendMsg();
+  setTimeout(()=>{
+    this.sendMsg();
+  },1000);
+ // this.addTransferChartDataListener();
  // this.startHttpRequest();
   }
 
@@ -32,8 +37,18 @@ export class AppComponent implements OnInit {
       .then(() => console.log('Connection started'))
       .catch(err => console.log('Error while starting connection: ' + err))
   }
+
+  subscribeMsg(){
+    this.hubConnection.on('send',data=>{
+      console.log(data);
+    });
+  }
+
+  sendMsg(){
+    this.hubConnection.invoke('send','Hello world');
+  }
  
-  public addTransferChartDataListener = () => {
+  private addTransferChartDataListener = () => {
     this.hubConnection.on('send', (data) => {
       this.data = data;
       console.log(data);
