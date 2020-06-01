@@ -11,7 +11,10 @@ using server.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-
+using server.Domain.Models;
+using System.Configuration;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
 namespace server
 {
     public class Startup
@@ -20,6 +23,11 @@ namespace server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
+
+            services.AddSingleton<IDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+
             services.AddCors (options => {
                 options.AddPolicy ("CorsPolicy", builder => builder
                     .WithOrigins ("http://localhost:4200")
