@@ -15,6 +15,8 @@ using server.Domain.Models;
 using System.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
+using server.Services;
+
 namespace server
 {
     public class Startup
@@ -59,6 +61,7 @@ namespace server
                 };
             });
 
+            services.AddSingleton<IdentityService>();
             services.AddControllers ();
         }
 
