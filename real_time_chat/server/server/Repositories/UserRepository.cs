@@ -8,7 +8,7 @@ using server.Domain.Repositories;
 
 namespace server.Repositories
 {
-    public class UserRepository: BaseRepository
+    public class UserRepository: BaseRepository, IUserRepository
     {
         private readonly IMongoCollection<User> _users;
         public UserRepository(IDatabaseSettings settings):base(settings)
@@ -16,9 +16,10 @@ namespace server.Repositories
             _users = _database.GetCollection<User>(settings.UserCollectionName);
         }
 
-        public void Create(User user)
+        public User Create(User user)
         {
             _users.InsertOne(user);
+            return user;
         }
     }
 }

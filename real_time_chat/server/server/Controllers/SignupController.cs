@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using server.Services;
 using server.Domain.Models;
+using server.Domain.Services;
+using server.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,10 +15,10 @@ namespace server.Controllers
     [Route("api/[controller]")]
     public class SignupController : Controller
     {
-        private readonly IdentityService _identityService;
-        public SignupController(IdentityService identityService)
+        private readonly IIdentityService _iidentityService;
+        public SignupController(IIdentityService iidentityService)
         {
-            _identityService = identityService;
+            _iidentityService = iidentityService;
         }
         
         // GET: api/<controller>
@@ -35,9 +37,15 @@ namespace server.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]User user)
+        public IActionResult Post([FromBody]User user)
         {
-            _identityService.Create(user);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            _iidentityService.Create(user);
+            return Ok(new { success ="true" });
         }
 
         // PUT api/<controller>/5

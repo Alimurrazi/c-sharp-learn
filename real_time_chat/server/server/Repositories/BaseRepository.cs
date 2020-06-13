@@ -9,7 +9,7 @@ namespace server.Repositories
 {
     public class BaseRepository
     {
-        private readonly IMongoDatabase _database;
+        public readonly IMongoDatabase _database;
         public BaseRepository(IDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
