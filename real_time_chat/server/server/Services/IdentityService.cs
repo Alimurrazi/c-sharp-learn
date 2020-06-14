@@ -10,12 +10,12 @@ using server.Repositories;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Text;
+using server.Responses;
 
 namespace server.Services
 {
     public class IdentityService : IIdentityService
     {
-      //  private readonly IMongoCollection<User> _users;
 
         private readonly IUserRepository _userRepository;
 
@@ -27,7 +27,6 @@ namespace server.Services
         private string GetHashedPassword(string password)
         {
             string defaultSalt = "NZsP6NnmfBuYeJrrAKNuVQ==";
-           // byte[] salt = new byte[128 / 8];
             byte[] salt = Encoding.ASCII.GetBytes(defaultSalt);
 
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
@@ -40,18 +39,20 @@ namespace server.Services
             return hashed;
         }
 
-        public User Create(User user)
+        public async Task<BaseResponse> CreateUserAsync(User user)
         {
             try
             {
                 user.Password = this.GetHashedPassword(user.Password);
                 user.Id = Guid.NewGuid().ToString();
-                _userRepository.Create(user);
-                return user;
+                await _userRepository.CreateAsync(user);
+                return new BaseResponse(true, null, null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-
+                List<string> errorMsg = new List<string>();
+                errorMsg.Add(ex.Message);
+                return new BaseResponse(false, errorMsg, null);
             }
         }
     }

@@ -8,6 +8,6 @@ namespace server.Domain.Repositories
 {
     public interface IUserRepository
     {
-        User Create(User user);
+        Task CreateAsync(User user);
     }
 }

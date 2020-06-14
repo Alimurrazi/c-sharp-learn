@@ -3,16 +3,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using server.Responses;
 
 namespace server.Extensions
 {
     public static class ModelStateExtensions
     {
-        public static List<string> GetErrorMessages(this ModelStateDictionary modelStateDictionary)
+        public static BaseResponse GetErrorMessages(this ModelStateDictionary modelStateDictionary)
         {
-            return modelStateDictionary.SelectMany(m => m.Value.Errors)
+            List<string> errorMsg = new List<string>(); 
+            errorMsg = modelStateDictionary.SelectMany(m => m.Value.Errors)
                 .Select(m => m.ErrorMessage)
                 .ToList();
+            return new BaseResponse(false, errorMsg, null);
         }
     }
 }

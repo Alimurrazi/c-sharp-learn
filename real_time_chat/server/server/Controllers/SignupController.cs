@@ -37,15 +37,22 @@ namespace server.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult Post([FromBody]User user)
+        public async Task<IActionResult> PostAsync([FromBody]User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorMessages());
             }
 
-            _iidentityService.Create(user);
-            return Ok(new { success ="true" });
+            var result = await _iidentityService.CreateUserAsync(user);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
 
         // PUT api/<controller>/5

@@ -16,10 +16,14 @@ namespace server.Repositories
             _users = _database.GetCollection<User>(settings.UserCollectionName);
         }
 
-        public User Create(User user)
+        public async Task CreateAsync(User user)
         {
-            _users.InsertOne(user);
-            return user;
+            await _users.InsertOneAsync(user);
         }
+
+        //public Task<User> CreateAsync(User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
