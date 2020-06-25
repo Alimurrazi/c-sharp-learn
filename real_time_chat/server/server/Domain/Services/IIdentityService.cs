@@ -10,5 +10,6 @@ namespace server.Domain.Services
     public interface IIdentityService
     {
         Task<BaseResponse> CreateUserAsync(User user);
+        Task<BaseResponse> IsEmailExistsAsync(string mail);
     }
 }
