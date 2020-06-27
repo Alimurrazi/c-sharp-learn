@@ -30,5 +30,11 @@ namespace server.Repositories
 
             return userList;
         }
+
+        public async Task<User> GetUserByCredential(string mail, string password)
+        {
+            var user = await _users.Find(user => user.Mail == mail && user.Password == password).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }

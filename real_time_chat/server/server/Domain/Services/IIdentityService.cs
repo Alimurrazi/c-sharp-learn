@@ -11,5 +11,7 @@ namespace server.Domain.Services
     {
         Task<BaseResponse> CreateUserAsync(User user);
         Task<BaseResponse> IsEmailExistsAsync(string mail);
+
+        Task<BaseResponse> CreateAccessTokenAsync(string mail, string password);
     }
 }

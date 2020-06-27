@@ -63,6 +63,19 @@ namespace server.Services
             }
         }
 
+        public async Task<BaseResponse> CreateAccessTokenAsync(string mail, string password)
+        {
+            string hashedPassword = GetHashedPassword(password);
+            User user = await _userRepository.GetUserByCredential(mail, hashedPassword);
+            if(user == null)
+            {
+                return new BaseResponse(false, 'Invalid credentials', null);
+            }
+
+
+            return new BaseResponse(false,null,null);
+        }
+
         public async Task<BaseResponse> IsEmailExistsAsync(string mail)
         {
             try
