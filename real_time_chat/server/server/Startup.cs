@@ -14,11 +14,14 @@ using System.Text;
 using server.Domain.Models;
 using server.Domain.Services;
 using server.Domain.Repositories;
+using server.Domain.Security;
 using System.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Configuration;
 using server.Services;
 using server.Repositories;
+using server.Security.Hashing;
+using server.Domain.Security.IPasswordHasher;
 
 namespace server
 {
@@ -65,10 +68,11 @@ namespace server
                 };
             });
 
-          //  services.AddSingleton<IdentityService>();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IIdentityService, IdentityService>();
+
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             services.AddControllers ();
         }
@@ -92,10 +96,6 @@ namespace server
             {
                 endpoints.MapControllers ();
                 endpoints.MapHub<MessageHub>("message");
-                // endpoints.MapGet("/", async context =>
-                // {
-                //     await context.Response.WriteAsync("Hello World!");
-                // });
             });
         }
     }
