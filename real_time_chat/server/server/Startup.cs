@@ -73,6 +73,7 @@ namespace server
             services.AddScoped<IIdentityService, IdentityService>();
 
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<ITokenHandler, TokenHandler>();
 
             services.AddControllers ();
         }
