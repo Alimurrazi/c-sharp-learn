@@ -6,7 +6,7 @@ using server.Domain.Models;
 
 namespace server.Domain.Security
 {
-    interface ITokenHandler
+    public interface ITokenHandler
     {
         AccessToken CreateAccessToken(User user);
         RefreshToken TakeRefreshToken(string token);

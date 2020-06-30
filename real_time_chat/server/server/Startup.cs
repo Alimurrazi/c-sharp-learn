@@ -21,7 +21,9 @@ using Microsoft.Extensions.Configuration;
 using server.Services;
 using server.Repositories;
 using server.Security.Hashing;
+using server.Security.Tokens;
 using server.Domain.Security.IPasswordHasher;
+using TokenHandler = server.Security.Tokens.TokenHandler;
 
 namespace server
 {
@@ -52,30 +54,34 @@ namespace server
             });
             services.AddSignalR();
 
-            services.AddAuthentication(opt=>{
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options=>{
-                options.TokenValidationParameters = new TokenValidationParameters{
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-
-                    ValidIssuer = "http://localhost:5000",
-                    ValidAudience = "http://localhost:5000",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-                };
-            });
-
-
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IIdentityService, IdentityService>();
 
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenHandler, TokenHandler>();
-
             services.AddControllers ();
+
+            services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
+            var tokenOptions = Configuration.GetSection("TokenOptions").Get<TokenOptions>();
+
+            var signingConfigurations = new SigningConfiguration(tokenOptions.Secret);
+            services.AddSingleton(signingConfigurations);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(jwtBearerOptions =>
+                {
+                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = tokenOptions.Issuer,
+                        ValidAudience = tokenOptions.Audience,
+                        IssuerSigningKey = signingConfigurations.SecurityKey,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

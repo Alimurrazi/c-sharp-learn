@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using server.Domain.Models;
 using server.Domain.Services;
 using server.Domain.Repositories;
+using server.Domain.Security;
 using MongoDB.Driver;
 using server.Repositories;
 using System.Security.Cryptography;
@@ -21,11 +22,13 @@ namespace server.Services
 
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ITokenHandler _tokenHandler;
 
-        public IdentityService(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public IdentityService(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenHandler tokenHandler)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
+            _tokenHandler = tokenHandler;
         }
 
         public async Task<BaseResponse> CreateUserAsync(User user)
@@ -66,7 +69,9 @@ namespace server.Services
                     return GetErrorResponse("Invalid credentials");
                 }
 
-                return new BaseResponse(false, null, null);
+                var token = _tokenHandler.CreateAccessToken(user);
+
+                return new BaseResponse(true, null, token);
             }
             catch (Exception ex)
             {
