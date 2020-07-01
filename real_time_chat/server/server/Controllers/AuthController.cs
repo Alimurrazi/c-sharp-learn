@@ -10,14 +10,15 @@ using server.Domain.Services;
 namespace server.Controllers
 {
     [Route("api/[controller]")]
-    public class LoginController : Controller
+    public class AuthController : Controller
     {
         private readonly IIdentityService _iidentityService;
-        public LoginController(IIdentityService iidentityService)
+        public AuthController(IIdentityService iidentityService)
         {
             _iidentityService = iidentityService;
         }
 
+        [Route("/login")]
         [HttpPost]
         public async Task<IActionResult> LoginAsync([FromBody]UserCredentialResource userCredentialResource)
         {
@@ -30,7 +31,7 @@ namespace server.Controllers
 
             var response = await _iidentityService.CreateAccessTokenAsync(userCredentialResource.Mail, userCredentialResource.Password);
 
-            return View();
+            return Ok(response);
         }
     }
 }

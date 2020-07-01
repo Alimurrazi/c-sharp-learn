@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using server.Domain.Models;
 using server.Domain.Security;
 using server.Domain.Security.IPasswordHasher;
@@ -17,10 +18,10 @@ namespace server.Security.Tokens
         private readonly TokenOptions _tokenOptions;
         private readonly SigningConfiguration _signingConfiguration;
         private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
-        TokenHandler(IPasswordHasher passwordHasher, TokenOptions tokenOptions, SigningConfiguration signingConfiguration)
+        public TokenHandler(IOptions<TokenOptions>tokenOptionsSnapshot, SigningConfiguration signingConfiguration, IPasswordHasher passwordHasher)
         {
             _passwordHasher = passwordHasher;
-            _tokenOptions = tokenOptions;
+            _tokenOptions = tokenOptionsSnapshot.Value;
             _signingConfiguration = signingConfiguration;
         }
 
