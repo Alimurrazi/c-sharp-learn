@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using server.Extensions;
 using server.Resources;
 using server.Domain.Services;
+using server.Domain.Security;
 
 namespace server.Controllers
 {
@@ -30,6 +31,21 @@ namespace server.Controllers
 
 
             var response = await _iidentityService.CreateAccessTokenAsync(userCredentialResource.Mail, userCredentialResource.Password);
+
+            return Ok(response);
+        }
+
+        [Route("/token/refresh")]
+        [HttpPost]
+
+        public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenResource refreshTokenResource)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await _iidentityService.RefreshTokenAsync(refreshTokenResource);
 
             return Ok(response);
         }

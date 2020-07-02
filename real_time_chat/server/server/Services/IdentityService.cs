@@ -14,6 +14,7 @@ using System.Text;
 using server.Responses;
 using server.Security;
 using server.Domain.Security.IPasswordHasher;
+using server.Resources;
 
 namespace server.Services
 {
@@ -97,6 +98,39 @@ namespace server.Services
             {
                 return GetErrorResponse(ex.Message);
             }
+        }
+
+        public async Task<BaseResponse> RefreshTokenAsync(RefreshTokenResource refreshTokenResource)
+        {
+            try
+            {
+                var token = _tokenHandler.TakeRefreshToken(refreshTokenResource.token);
+                if (token == null)
+                {
+                    return GetErrorResponse("Invalid refresh token");
+                }
+                if (token.IsExpired())
+                {
+                    return GetErrorResponse("Expired refresh token");
+                }
+                User user = await _userRepository.GetUserByValue("Id", refreshTokenResource.userId);
+                if (user == null)
+                {
+                    return GetErrorResponse("Invalid refresh token");
+                }
+                var accesstoken = _tokenHandler.CreateAccessToken(user);
+
+                return new BaseResponse(true, null, accesstoken);
+            }
+            catch(Exception ex)
+            {
+                return GetErrorResponse(ex.Message);
+            }
+        }
+
+        public Task<BaseResponse> RevokeToken(string token)
+        {
+            throw new NotImplementedException();
         }
     }
 }

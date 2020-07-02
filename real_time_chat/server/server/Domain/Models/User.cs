@@ -16,5 +16,10 @@ namespace server.Domain.Models
         public string Role { get; set; }
         public string Password { get; set; }
         public string ProfielImg { get; set; }
+
+        public static implicit operator User(List<User> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

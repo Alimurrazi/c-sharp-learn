@@ -68,7 +68,17 @@ namespace server.Security.Tokens
 
         public RefreshToken TakeRefreshToken(string token)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return null;
+            }
+
+            var refreshToken = _refreshTokens.SingleOrDefault(refreshToken => refreshToken.Token == token);
+            if (refreshToken != null)
+            {
+                _refreshTokens.Remove(refreshToken);
+            }
+            return refreshToken;
         }
     }
 }

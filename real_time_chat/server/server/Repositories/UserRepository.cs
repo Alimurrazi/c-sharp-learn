@@ -36,5 +36,11 @@ namespace server.Repositories
             var user = await _users.Find(user => user.Mail == mail && user.Password == password).FirstOrDefaultAsync();
             return user;
         }
+
+        public async Task<User> GetUserById(string id)
+        {
+            var user = await _users.Find(user => user.Id == id).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace server.Domain.Repositories
     {
         Task CreateAsync(User user);
         Task<List<User>> GetUserByValue(string key, string value);
-
         Task<User> GetUserByCredential(string mail, string password);
+        Task<User> GetUserById(string userId);
     }
 }
